@@ -17,6 +17,7 @@
 package eu.inmite.android.lib.dialogs;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -26,7 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +44,14 @@ import android.widget.TextView;
  *
  * @author David Vávra (david@inmite.eu)
  */
-public abstract class BaseDialogFragment extends DialogFragment {
+public abstract class BaseDialogFragment extends DialogFragment
+{
+	private int mTheme;
 
-    @Override
+	@Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-	Dialog dialog = new Dialog(getActivity(), R.style.SDL_Dialog);
+	int theme = mTheme > 0 ? mTheme : R.style.SDL_Dialog;
+	Dialog dialog = new Dialog(getActivity(), theme);
 	// custom dialog background
 	final TypedArray a = getActivity().getTheme()
 		.obtainStyledAttributes(null, R.styleable.DialogStyle, R.attr.sdlDialogStyle, 0);
@@ -112,6 +116,17 @@ public abstract class BaseDialogFragment extends DialogFragment {
 	    return null;
 	}
     }
+
+	public int getTheme()
+	{
+		return mTheme;
+	}
+
+	public void setTheme(int theme)
+	{
+		mTheme = theme;
+	}
+
 
     /**
      * Custom dialog builder
